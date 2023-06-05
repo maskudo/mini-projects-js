@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { produce } from 'immer';
 import { useCallback, useRef, useState } from 'react';
 
 function getEmptyGrid(size: number): number[][] {
@@ -36,32 +35,27 @@ function App() {
     if (!runningRef.current) {
       return;
     }
-    setGrid((g) =>
-      produce(g, (gridCopy) => {
-        for (let i = 0; i < gridSize; i += 1) {
-          for (let j = 0; j < gridSize; j += 1) {
-            let aliveNeighbours = 0;
-            neighbours.forEach(([x, y]) => {
-              const newI = i + x;
-              const newJ = j + y;
-              if (
-                newI >= 0 &&
-                newI < gridSize &&
-                newJ >= 0 &&
-                newJ < gridSize
-              ) {
-                aliveNeighbours += g[newI][newJ];
-              }
-            });
-            if (aliveNeighbours < 2 || aliveNeighbours > 3) {
-              gridCopy[i][j] = 0;
-            } else if (gridCopy[i][j] === 0 && aliveNeighbours === 3) {
-              gridCopy[i][j] = 1;
+    setGrid((g) => {
+      const gridCopy = JSON.parse(JSON.stringify(g));
+      for (let i = 0; i < gridSize; i += 1) {
+        for (let j = 0; j < gridSize; j += 1) {
+          let aliveNeighbours = 0;
+          neighbours.forEach(([x, y]) => {
+            const newI = i + x;
+            const newJ = j + y;
+            if (newI >= 0 && newI < gridSize && newJ >= 0 && newJ < gridSize) {
+              aliveNeighbours += g[newI][newJ];
             }
+          });
+          if (aliveNeighbours < 2 || aliveNeighbours > 3) {
+            gridCopy[i][j] = 0;
+          } else if (gridCopy[i][j] === 0 && aliveNeighbours === 3) {
+            gridCopy[i][j] = 1;
           }
         }
-      })
-    );
+      }
+      return gridCopy;
+    });
     setTimeout(runSimulation, 1000);
   }, []);
   return (
@@ -90,9 +84,8 @@ function App() {
           row.map((col, j) => (
             <div
               onClick={() => {
-                const newGrid = produce(grid, (gridCopy) => {
-                  gridCopy[i][j] = gridCopy[i][j] ? 0 : 1;
-                });
+                const newGrid = JSON.parse(JSON.stringify(grid));
+                newGrid[i][j] = grid[i][j] ? 0 : 1;
                 setGrid(newGrid);
               }}
               className="col"
