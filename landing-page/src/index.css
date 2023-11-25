@@ -16,3 +16,6 @@ body {
   background: black;
   color: white;
 }
+.dashboard div {
+  background-image: linear-gradient(transparent, black);
+}

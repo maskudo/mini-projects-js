@@ -1,19 +1,20 @@
-import { logoImg } from "../constants";
+import { logoImg, menuImg } from "../constants";
 
 function Header() {
   return (
-    <header className="mx-[20%]">
-      <nav className="flex justify-between items-center py-8">
+    <header className="md:mx-[20%]">
+      <nav className="flex justify-between items-center py-8 px-2">
         <img src={logoImg} alt="logo" width="186px" height="58px" />
-        <ul className="flex gap-8">
+        <ul className="md:flex md:gap-8 hidden ">
           <li>Home</li>
           <li>Product</li>
           <li>About</li>
           <li>Contact</li>
         </ul>
-        <button className="border border-white px-10 py-2 h-[52px] w-[140px]">
+        <button className="border border-white h-[50px] w-[140px] max-w-[25%]">
           Login
         </button>
+        <img src={menuImg} alt="menu" className="md:hidden" />
       </nav>
     </header>
   );
