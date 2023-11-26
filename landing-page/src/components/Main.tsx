@@ -1,4 +1,5 @@
 import Dashboard from "./Dashboard";
+import Features from "./Features";
 function Main() {
   return (
     <div>
@@ -20,6 +21,7 @@ function Main() {
         </div>
       </section>
       <Dashboard />
+      <Features />
     </div>
   );
 }
